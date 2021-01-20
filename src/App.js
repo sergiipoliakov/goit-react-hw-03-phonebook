@@ -17,6 +17,20 @@ export default class App extends Component {
     name: '',
     number: '',
   };
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.contacts !== prevState.contacts) {
+      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
+    }
+  }
+
+  componentDidMount() {
+    const contacts = localStorage.getItem('contacts');
+    const parsContacts = JSON.parse(contacts);
+
+    if (parsContacts) {
+      this.setState({ contacts: parsContacts });
+    }
+  }
 
   handleChange = e => {
     const { name, value } = e.target;
@@ -60,17 +74,14 @@ export default class App extends Component {
   };
 
   render() {
-    const { filter } = this.state;
+    const { filter, contacts } = this.state;
 
     const filteredContacts = this.getFilteredName();
 
     return (
       <Layout>
         <h1>Phonebook</h1>
-        <ContactForm
-          onAddContact={this.addContact}
-          contacts={this.state.contacts}
-        />
+        <ContactForm onAddContact={this.addContact} contacts={contacts} />
         <h2>Contacts</h2>
         <Filter value={filter} onChangeFilter={this.changeFilter} />
         <ContactList
