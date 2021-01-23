@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { uuid } from 'uuidv4';
+import { v4 as uuid_v4 } from 'uuid';
 import Layout from './components/Layout';
 import ContactForm from './components/ContactForm/ContactForm';
 import Filter from './components/Filter/Filter';
@@ -42,7 +42,7 @@ export default class App extends Component {
 
   addContact = data => {
     const contact = {
-      id: uuid(),
+      id: uuid_v4(),
       name: data.name,
       number: data.number,
     };
